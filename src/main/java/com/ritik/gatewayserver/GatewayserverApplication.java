@@ -6,6 +6,8 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
+
 @SpringBootApplication
 public class GatewayserverApplication {
 
@@ -18,19 +20,25 @@ public class GatewayserverApplication {
         return routeLocatorBuilder.routes()
                 .route(predicateSpec ->
                         predicateSpec.path("/bank/accounts/**")
-                                .filters(filter -> filter.rewritePath("/bank/accounts/(?<segment>.*)", "/${segment}"))
+                                .filters(filter -> filter
+                                        .rewritePath("/bank/accounts/(?<segment>.*)", "/${segment}")
+                                        .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
                                 .uri("lb://ACCOUNTS")
 
                 )
                 .route(predicateSpec ->
                         predicateSpec.path("/bank/loans/**")
-                                .filters(filter -> filter.rewritePath("/bank/loans/(?<segment>.*)", "/${segment}"))
+                                .filters(filter -> filter
+                                        .rewritePath("/bank/loans/(?<segment>.*)", "/${segment}")
+                                        .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
                                 .uri("lb://LOANS")
 
                 )
                 .route(predicateSpec ->
                         predicateSpec.path("/bank/cards/**")
-                                .filters(filter -> filter.rewritePath("/bank/cards/(?<segment>.*)", "/${segment}"))
+                                .filters(filter -> filter
+                                        .rewritePath("/bank/cards/(?<segment>.*)", "/${segment}")
+                                        .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
                                 .uri("lb://CARDS")
 
                 )
