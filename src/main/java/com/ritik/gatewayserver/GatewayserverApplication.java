@@ -22,7 +22,9 @@ public class GatewayserverApplication {
                         predicateSpec.path("/bank/accounts/**")
                                 .filters(filter -> filter
                                         .rewritePath("/bank/accounts/(?<segment>.*)", "/${segment}")
-                                        .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                                        .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                        .circuitBreaker(config -> config.setName("accountsCircuitBraker"))
+                                )
                                 .uri("lb://ACCOUNTS")
 
                 )
