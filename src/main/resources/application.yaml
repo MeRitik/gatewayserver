@@ -13,6 +13,10 @@ spring:
               enabled: false
               lower-case-service-id: true
 
+          httpclient:
+            connect-timeout: 1000
+            response-timeout: 2s
+
 
 management:
   endpoints:
@@ -49,11 +53,3 @@ resilience4j:
         permitted-number-of-calls-in-half-open-state: 2
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10000
-    instances:
-      accountsCircuitBraker:
-        base-config: default
-
-  timelimiter:
-    instances:
-      accountsCircuitBraker:
-        timeout-duration: 5s
